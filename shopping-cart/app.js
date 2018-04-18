@@ -1,4 +1,5 @@
 var createError = require('http-errors');
+const http = require('http');
 var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
@@ -34,5 +35,11 @@ app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.render('error');
 });
+
+const port = process.env.PORT || 3000
+
+const server = http.createServer(app)
+
+server.listen(port)
 
 module.exports = app;
