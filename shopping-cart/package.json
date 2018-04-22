@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "nodemon app.js"
+    "start": "nodemon --inspect app.js"
   },
   "dependencies": {
     "cookie-parser": "~1.4.3",
@@ -12,6 +12,7 @@
     "express-handlebars": "^3.0.0",
     "hbs": "~4.0.1",
     "http-errors": "~1.6.2",
+    "mongoose": "4.4.16",
     "morgan": "~1.9.0"
   },
   "devDependencies": {
