@@ -21,7 +21,8 @@ router.get('/', function (req, res, next) {
 });
 
 router.get('/user/signup', (req, res, next) => {
-  res.render('user/signup', { csrfToken: req.csrfToken })
+  var messages = req.flash('error')
+  res.render('user/signup', { csrfToken: req.csrfToken(), messages: messages , hasErrors : messages.length ? true : false})
 })
 
 router.post('/user/signup', passport.authenticate('local.signup', {
@@ -32,6 +33,9 @@ router.post('/user/signup', passport.authenticate('local.signup', {
 
 router.get('/user/profile', (req, res, next) => {
   return res.render('user/profile');
+})
+router.get('/user/signin', (req, res, next) => {
+  return res.render('user/signin');
 })
 
 
