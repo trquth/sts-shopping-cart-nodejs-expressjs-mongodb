@@ -17,12 +17,20 @@ passport.use('local.signup', new LocalStrategy({
     passwordField: 'password',
     passReqToCallback: true
 }, (req, email, passport, done) => {
-    User.findOne({ 'email': email }, (err, user) => {
+    req.checkBody('email', 'Invalid email').notEmpty().isEmail();
+    req.checkBody('password', 'Invalid password').notEmpty().isLength({min: 4});
+    var errors = req.validationErrors();
+    if (errors) {
+        var messages = [];
+        errors.forEach(err => messages.push(err.msg));
+        return done(null, false, req.flash('error', messages))
+    }
+    User.findOne({'email': email}, (err, user) => {
         if (err) {
             return done(err);
         }
         if (user) {
-            return done(null, false, { message: 'Email is already in use.' })
+            return done(null, false, {message: 'Email is already in use.'})
         }
         var newUser = new User();
         newUser.email = email;
