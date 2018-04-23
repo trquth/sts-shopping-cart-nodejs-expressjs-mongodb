@@ -25,6 +25,7 @@ passport.use('local.signup', new LocalStrategy({
         errors.forEach(err => messages.push(err.msg));
         return done(null, false, req.flash('error', messages))
     }
+
     User.findOne({'email': email}, (err, user) => {
         if (err) {
             return done(err);
@@ -41,5 +42,33 @@ passport.use('local.signup', new LocalStrategy({
             }
             return done(null, newUser)
         })
+    })
+}))
+
+passport.use('local.signin', new LocalStrategy({
+    usernameField: 'email',
+    passwordField: 'password',
+    passReqToCallback: true
+}, (req, email, passport, done) => {
+    req.checkBody('email', 'Invalid email').notEmpty().isEmail();
+    req.checkBody('password', 'Invalid password').notEmpty();
+    var errors = req.validationErrors();
+    if (errors) {
+        var messages = [];
+        errors.forEach(err => messages.push(err.msg));
+        return done(null, false, req.flash('error', messages))
+    }
+
+    User.findOne({'email': email}, (err, user) => {
+        if (err) {
+            return done(err);
+        }
+        if (!user) {
+            return done(null, false, {message: 'Not found user.'})
+        }
+        if (!user.validPassword(passport)) {
+            return done(null, false, {message: 'Invalid password.'})
+        }
+        return done(null, user);
     })
 }))

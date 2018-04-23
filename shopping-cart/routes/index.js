@@ -15,14 +15,14 @@ router.get('/', function (req, res, next) {
     for (var i = 0; i < docs.length; i += chunkSize) {
       productChunks.push(docs.slice(i, i + chunkSize));
     }
-    res.render('shop/index', { title: 'Shopping Cart', products: productChunks });
+    res.render('shop/index', {title: 'Shopping Cart', products: productChunks});
   })
 
 });
 
 router.get('/user/signup', (req, res, next) => {
   var messages = req.flash('error')
-  res.render('user/signup', { csrfToken: req.csrfToken(), messages: messages , hasErrors : messages.length ? true : false})
+  res.render('user/signup', {csrfToken: req.csrfToken(), messages: messages, hasErrors: messages.length ? true : false})
 })
 
 router.post('/user/signup', passport.authenticate('local.signup', {
@@ -38,5 +38,15 @@ router.get('/user/signin', (req, res, next) => {
   return res.render('user/signin');
 })
 
+router.get('/user/siginin', (req, res, next) => {
+  var messages = req.flash('error')
+  res.render('user/signin', {csrfToken: req.csrfToken(), messages: messages, hasErrors: messages.length ? true : false})
+})
+
+router.post('/user/signin', passport.authenticate('local.signin', {
+  successRedirect: '/user/signup',
+  failureRedirect: '/user/signin',
+  failureFlash: true
+}))
 
 module.exports = router;
