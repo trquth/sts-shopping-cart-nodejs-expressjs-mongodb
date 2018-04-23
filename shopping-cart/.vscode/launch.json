@@ -11,7 +11,7 @@
             "program": "${workspaceFolder}/app.js",
             "runtimeExecutable": "nodemon",
             "restart": true,
-            "autoAttachChildProcesses": true,
+            //"autoAttachChildProcesses": true,
             "console": "integratedTerminal",
             "cwd": "${workspaceFolder}"
         },
