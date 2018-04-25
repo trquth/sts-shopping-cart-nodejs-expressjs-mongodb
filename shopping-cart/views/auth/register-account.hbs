@@ -1,8 +1,3 @@
-<div class="row" style="margin-top : 20px; margin-bottom : 20px">
-    <div class="col-12 alert alert-success text-center invisible" role="alert" id="alert">
-        Request AJAX successfully
-    </div>
-</div>
 <div class="row justify-content-center align-self-center">
     <h3>List Account</h3>
 </div>
@@ -99,6 +94,8 @@
                 dataType: 'json',
                 success: (req) => {
                     $('#exampleModal').modal('toggle');
+                    $('#alert').addClass(`alert-${req.type}`)
+                    $('#alert').text(req.message)
                     $('#alert').removeClass('invisible').addClass('visible')
                     setTimeout(() => {
                         $('#alert').removeClass('visible').addClass('invisible')

@@ -34,6 +34,9 @@ app.engine('.hbs', expressHbs({
       if (!app.locals._sections) app.locals._sections = {};
       app.locals._sections[name] = options.fn(this);
       return null;
+    },
+    debug: (value) => {
+      console.log('VALUE--->', value)
     }
   }
 }))
@@ -43,7 +46,7 @@ app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(validator());
-app.use(cookieParser());
+app.use(cookieParser('mysupersecret'));
 //app.use(bodyParser());
 app.use(session({
   secret: 'mysupersecret',
@@ -60,6 +63,12 @@ app.use(passport.session());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use((req, res, next) => {
+  res.locals.flash = req.session.flash;
+  delete req.session.flash;
+  next();
+})
+
+app.use((req, res, next) => {
   res.locals.login = req.isAuthenticated();
   res.locals.session = req.session;
   next();
@@ -67,7 +76,6 @@ app.use((req, res, next) => {
 app.use('/', indexRouter);
 app.use('/user', userRouter);
 app.use('/auth', authRouter);
-
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

@@ -36,3 +36,12 @@
         </form>
     </div>
 </div>
+
+{{#section 'js'}}
+<script>
+    $(document).ready(() => {
+        setTimeout(() =>{
+            $('.alert').removeClass('visible').addClass('invisible')
+        },5000)
+    })
+</script> {{/section}}

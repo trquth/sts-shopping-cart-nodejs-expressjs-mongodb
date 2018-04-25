@@ -1,0 +1,11 @@
+<div class="row" style="margin-top : 20px; margin-bottom : 20px">
+    {{#debug flash}}{{/debug}} {{#if flash}}
+    <div class="col-12 alert alert-{{flash.type}} text-center" role="alert" id="alert">
+        {{flash.message}}
+    </div>
+    {{else}}
+    <div class="col-12 alert text-center invisible" role="alert" id="alert">
+        {{flash.message}}
+    </div>
+    {{/if}}
+</div>

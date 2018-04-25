@@ -9,7 +9,7 @@ router.get('/register-account', (req, res, next) => {
 
 router.post('/register-account', (req, res, next) => {
     if (req.xhr || req.accepts('json,html') === 'json') {
-        res.send({ success: true })
+        res.send({ success: true, type :'success', message : 'Call AJAX successfully' })
     } else {
         res.redirect('/register-account')
     }
@@ -20,6 +20,10 @@ router.get('/register-account/form-handle', (req, res, next) => {
 })
 
 router.post('/register-account/form-handle', (req, res, next) => {
+    req.session.flash = {
+        type: 'success',
+        message: 'Submit form data successfully'
+    }
     res.redirect('/auth/register-account/form-handle')
 })
 
